@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+require:
+  - standard
+inherit_gem:
+  standard: config/base.yml
+AllCops:
+  TargetRubyVersion: 3.4
