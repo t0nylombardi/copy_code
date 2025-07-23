@@ -7,6 +7,8 @@ GEM
     bundler-audit (0.9.2)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
+    byebug (12.0.0)
+    coderay (1.1.3)
     colorize (1.1.0)
     diff-lcs (1.6.2)
     docile (1.4.1)
@@ -14,12 +16,19 @@ GEM
     json (2.13.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
+    method_source (1.1.0)
     optparse (0.6.0)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
     prism (1.4.0)
+    pry (0.15.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-byebug (3.11.0)
+      byebug (~> 12.0)
+      pry (>= 0.13, < 0.16)
     racc (1.8.1)
     rainbow (3.1.1)
     regexp_parser (2.10.0)
@@ -96,6 +105,8 @@ DEPENDENCIES
   colorize
   fileutils
   optparse
+  pry
+  pry-byebug
   rspec
   rubocop-rspec
   rubocop-thread_safety

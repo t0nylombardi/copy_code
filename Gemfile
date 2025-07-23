@@ -4,20 +4,16 @@ source "https://rubygems.org"
 
 ruby "3.4.5"
 
-gem "thor"
+gem "brakeman"
 gem "colorize"
-gem "optparse"
 gem "fileutils"
-
-group :development do
-  gem "rspec"
-  gem "brakeman"
-  gem "rubocop-rspec"
-  gem "rubocop-thread_safety"
-  gem "ruby_audit"
-  gem "standard"
-end
-
-group :test do
-  gem "simplecov"
-end
+gem "optparse"
+gem "pry"
+gem "pry-byebug"
+gem "rspec"
+gem "rubocop-rspec"
+gem "rubocop-thread_safety"
+gem "ruby_audit"
+gem "simplecov"
+gem "standard"
+gem "thor"

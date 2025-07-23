@@ -4,4 +4,4 @@
 
 require_relative "../lib/copy_code"
 
-CopyCode::CLI.run(ARGV)
+CopyCode::CLI::Runner.run(ARGV)

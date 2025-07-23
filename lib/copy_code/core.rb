@@ -1,30 +1,35 @@
 # frozen_string_literal: true
 
+require "pry"
+
 module CopyCode
+  # Core file aggregator and formatter for the CopyCode domain
   class Core
-    def initialize(targets:, extensions:, ignore_paths:)
+    # @param targets [Array<String>] directories or files to scan
+    # @param filters [Array<#exclude?>] list of objects responding to `exclude?(file)`
+    def initialize(targets:, filters: [])
       @targets = targets.empty? ? ["."] : targets
-      @extensions = extensions.map { |e| ".#{e.gsub(/^\./, "")}" }
-      @ignore_paths = ignore_paths
+      @filters = filters
     end
 
+    # Gathers all matching files from the given targets.
+    #
+    # @return [Array<String>] list of absolute file paths
     def gather_files
-      files = []
-
-      @targets.each do |target|
-        Dir.glob("#{target}/**/*", File::FNM_DOTMATCH).each do |file|
-          next unless File.file?(file)
-          next if ignored?(file)
-          next unless matches_extension?(file)
-
-          files << file
+      @targets.flat_map do |target|
+        Dir.glob("#{target}/**/*", File::FNM_DOTMATCH).select do |file|
+          is_file = File.file?(file)
+          is_included = include_file?(file)
+          is_file && is_included
         end
-      end
-
-      files
+      end.each { |f| puts " - #{f}" }
     end
 
-    def output(files)
+    # Formats the given files into output chunks with headers
+    #
+    # @param files [Array<String>] list of file paths
+    # @return [String] formatted text
+    def format(files)
       files.map do |file|
         header = "=== #{file} ==="
         content = File.read(file)
@@ -34,13 +39,8 @@ module CopyCode
 
     private
 
-    def ignored?(file)
-      @ignore_paths.any? { |pattern| file.include?("/#{pattern}/") }
-    end
-
-    def matches_extension?(file)
-      return true if @extensions.empty?
-      @extensions.any? { |ext| file.end_with?(ext) }
+    def include_file?(file)
+      @filters.none? { |f| f.exclude?(file) }
     end
   end
 end

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "lib/copy_code/version"
+
 Gem::Specification.new do |spec|
   spec.name = "copy_code"
-  spec.version = "0.1.0"
+  spec.version = CopyCode::VERSION
   spec.authors = ["t0nylombardi"]
   spec.email = ["your@email.com"]
 
