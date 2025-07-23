@@ -6,7 +6,7 @@
 ![Build Status](https://img.shields.io/github/actions/workflow/status/t0nylombardi/copy_code/test.yml?branch=main)
 ![Code Style](https://img.shields.io/badge/code%20style-rubocop-brightgreen)
 
-A smart, flexible CLI tool to copy source code from a directory (or project) into your clipboard or a text file — while skipping unnecessary files using `.copy_codeignore`.
+A smart, flexible CLI tool to copy source code from a directory (or project) into your clipboard or a text file — while skipping unnecessary files using `.ccignore`.
 
 ---
 
