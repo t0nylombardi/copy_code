@@ -12,7 +12,6 @@ GEM
     colorize (1.1.0)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    fileutils (1.7.3)
     json (2.13.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
@@ -103,7 +102,6 @@ PLATFORMS
 DEPENDENCIES
   brakeman
   colorize
-  fileutils
   optparse
   pry
   pry-byebug
@@ -114,9 +112,6 @@ DEPENDENCIES
   simplecov
   standard
   thor
-
-RUBY VERSION
-   ruby 3.4.5p51
 
 BUNDLED WITH
    2.6.9

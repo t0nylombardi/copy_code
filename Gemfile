@@ -2,18 +2,23 @@
 
 source "https://rubygems.org"
 
-ruby "3.4.5"
-
-gem "brakeman"
+# Runtime dependencies
 gem "colorize"
-gem "fileutils"
 gem "optparse"
-gem "pry"
-gem "pry-byebug"
-gem "rspec"
-gem "rubocop-rspec"
-gem "rubocop-thread_safety"
-gem "ruby_audit"
-gem "simplecov"
-gem "standard"
 gem "thor"
+
+# Development & testing dependencies
+group :development, :test do
+  gem "pry"
+  gem "pry-byebug"
+  gem "rspec"
+  gem "simplecov"
+end
+
+group :development do
+  gem "brakeman"
+  gem "rubocop-rspec"
+  gem "rubocop-thread_safety"
+  gem "ruby_audit"
+  gem "standard"
+end
