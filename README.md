@@ -2,7 +2,6 @@
 
 ![Gem Version](https://img.shields.io/gem/v/copy_code.svg)
 ![Ruby](https://img.shields.io/badge/ruby-3.0%2B-red)
-![License](https://img.shields.io/github/license/t0nylombardi/copy_code)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/t0nylombardi/copy_code/test.yml?branch=main)
 ![Code Style](https://img.shields.io/badge/code%20style-rubocop-brightgreen)
 
@@ -19,6 +18,14 @@ A smart, flexible CLI tool to copy source code from a directory (or project) int
 - 🐚 Works from the terminal with one clean command
 
 ---
+
+### Options
+
+| flags                | options                                                              |
+| -------------------- | -------------------------------------------------------------------- |
+| -e, --extensions=EXT | Comma-separated list of file extensions to include (e.g. `-e rb,py`) |
+| -p, --print=OUT      | Output format: `pbcopy` (clipboard) or `txt` (file)                  |
+| -h                   | Show help information                                                |
 
 ## 🚀 Installation
 
@@ -101,14 +108,6 @@ coverage/
 # Ignore all virtual environments
 .venv/
 ```
-
-### Options
-
-| flags                | options                                                              |
-| -------------------- | -------------------------------------------------------------------- |
-| -e, --extensions=EXT | Comma-separated list of file extensions to include (e.g. `-e rb,py`) |
-| -p, --print=OUT      | Output format: `pbcopy` (clipboard) or `txt` (file)                  |
-| -h                   | Show help information                                                |
 
 ## 📜 License
 

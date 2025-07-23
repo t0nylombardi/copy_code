@@ -28,7 +28,6 @@ module CopyCode
         local_file = File.join(target_path, ".ccignore")
         fallback_file = File.expand_path("~/.ccignore")
 
-        puts "Loading ignore patterns from: #{local_file}" if ENV["DEBUG"]
         file = File.exist?(local_file) ? local_file : fallback_file
         return [] unless File.exist?(file)
 

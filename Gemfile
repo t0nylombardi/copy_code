@@ -2,12 +2,14 @@
 
 source "https://rubygems.org"
 
-# Runtime dependencies
+gemspec
+
 gem "colorize"
 gem "optparse"
 gem "thor"
+gem "irb"
+gem "rake", "~> 13.0"
 
-# Development & testing dependencies
 group :development, :test do
   gem "pry"
   gem "pry-byebug"
@@ -17,6 +19,7 @@ end
 
 group :development do
   gem "brakeman"
+  gem "rubocop"
   gem "rubocop-rspec"
   gem "rubocop-thread_safety"
   gem "ruby_audit"

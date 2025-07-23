@@ -22,7 +22,7 @@ module CopyCode
           is_included = include_file?(file)
           is_file && is_included
         end
-      end.each { |f| puts " - #{f}" }
+      end
     end
 
     # Formats the given files into output chunks with headers
