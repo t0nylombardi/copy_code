@@ -49,12 +49,16 @@ module CopyCode
       # @return [OptionParser]
       def build_parser
         OptionParser.new do |opts|
-          opts.banner = "Usage: copy_code [options] [paths]"
+          opts.banner = "Usage: copy_code [paths] [options]"
           opts.on("-eEXT", "--extensions=EXT", "Comma-separated list (e.g. rb,py,js)") do |ext|
             @options[:extensions] = parse_extensions(ext)
           end
           opts.on("-pOUT", "--print=OUT", "Output method: pbcopy (default) or txt") do |out|
             @options[:output] = out
+          end
+          opts.on("-h", "--help", "Displays help information") do
+            puts opts
+            exit
           end
         end
       end
@@ -71,7 +75,7 @@ module CopyCode
       #
       # @return [void]
       def assign_targets
-        @options[:targets] = @argv unless @argv.empty?
+        @options[:targets] = @argv.empty? ? [Dir.pwd] : @argv
         @options[:targets].map! { |t| File.expand_path(t) }
       end
 

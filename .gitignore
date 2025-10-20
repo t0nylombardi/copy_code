@@ -9,3 +9,8 @@
 
 # rspec failure tracking
 .rspec_status
+
+.tool-versions
+.cc_ignore
+# Ignored files
+copy_code.txt

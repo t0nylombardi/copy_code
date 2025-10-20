@@ -44,10 +44,16 @@ module CopyCode
       #
       # @return [Array<#exclude?>] array of filter objects
       def filters
-        @filters ||= [
-          Filters::FileExtensionFilter.new(options[:extensions]),
-          Filters::IgnorePathFilter.new(IgnoreLoader.load(options[:targets].first))
-        ]
+        @filters ||= begin
+          ignore_config = IgnoreLoader.load(options[:targets].first)
+          [
+            Filters::FileExtensionFilter.new(options[:extensions]),
+            Filters::IgnorePathFilter.new(
+              ignore_config.patterns,
+              root: ignore_config.base_dir
+            )
+          ]
+        end
       end
 
       # Creates the core file discovery/formatting engine.

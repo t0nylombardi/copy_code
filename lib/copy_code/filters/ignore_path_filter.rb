@@ -1,18 +1,25 @@
 # frozen_string_literal: true
 
+require_relative "../domain/filtering"
+
 module CopyCode
   module Filters
-    # Filters files by path substrings (e.g., ".venv", "node_modules")
+    # Filters files by gitignore-style path rules.
     class IgnorePathFilter
-      # @param ignore_patterns [Array<String>] substrings to match in file paths
-      def initialize(ignore_patterns)
-        @patterns = ignore_patterns
+      # @param ignore_patterns [Array<String>] gitignore-like patterns
+      # @param root [String] directory the patterns are relative to
+      def initialize(ignore_patterns, root:)
+        @resolver = Domain::Filtering::RelativePathResolver.new(root: root)
+        @rules = Domain::Filtering::IgnoreRuleSet.new(ignore_patterns)
       end
 
       # @param file [String]
       # @return [Boolean] whether the file should be excluded
       def exclude?(file)
-        @patterns.any? { |pattern| file.include?("/#{pattern}/") }
+        return false if @rules.empty?
+
+        relative = @resolver.call(file)
+        @rules.ignored?(relative)
       end
     end
   end
