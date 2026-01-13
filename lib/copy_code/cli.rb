@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pathname"
+
 # copy_code/lib/copy_code/cli/runner.rb
 #
 # This file defines the CopyCode::CLI::Runner class, which is the core orchestrator
@@ -35,7 +37,7 @@ module CopyCode
       #
       # @return [void]
       def execute
-        OutputWriter.write(result, options[:output])
+        OutputWriter.write(result, options[:output], output_path: output_path)
       end
 
       private
@@ -44,10 +46,16 @@ module CopyCode
       #
       # @return [Array<#exclude?>] array of filter objects
       def filters
-        @filters ||= [
-          Filters::FileExtensionFilter.new(options[:extensions]),
-          Filters::IgnorePathFilter.new(IgnoreLoader.load(options[:targets].first))
-        ]
+        @filters ||= begin
+          ignore_config = IgnoreLoader.load(options[:targets].first)
+          [
+            Filters::FileExtensionFilter.new(options[:extensions]),
+            Filters::IgnorePathFilter.new(
+              ignore_config.patterns,
+              root: ignore_config.base_dir
+            )
+          ]
+        end
       end
 
       # Creates the core file discovery/formatting engine.
@@ -79,6 +87,31 @@ module CopyCode
       # @return [Hash] parsed options hash
       def options
         @options ||= Parser.new(@argv).parse
+      end
+
+      # Determines where to write the text output, if requested.
+      #
+      # @return [String, nil] absolute output path or nil when not writing a file
+      def output_path
+        return nil unless options[:output].to_s.strip.casecmp("txt").zero?
+
+        explicit_path = options[:output_path]
+        target = options[:targets].first
+        base_dir = File.directory?(target) ? target : Dir.pwd
+        return File.join(base_dir, "code_output.txt") if explicit_path.nil? || explicit_path.strip.empty?
+
+        resolved_path = File.expand_path(explicit_path, base_dir)
+        return File.join(resolved_path, "code_output.txt") if directory_like?(explicit_path, resolved_path)
+
+        resolved_path
+      end
+
+      def directory_like?(explicit_path, resolved_path)
+        return true if explicit_path.end_with?(File::SEPARATOR)
+        return true if [".", ".."].include?(explicit_path)
+        return true if File.directory?(resolved_path)
+
+        false
       end
     end
   end

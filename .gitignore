@@ -6,6 +6,11 @@
 /pkg/
 /spec/reports/
 /tmp/
+code_output.txt
 
-# rspec failure tracking
+AGENTS.md
 .rspec_status
+
+.tool-versions
+.ccignore
+# Ignored files

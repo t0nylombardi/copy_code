@@ -28,6 +28,7 @@ module CopyCode
         @options = {
           extensions: [],
           output: "pbcopy",
+          output_path: nil,
           targets: []
         }
       end
@@ -39,6 +40,7 @@ module CopyCode
         build_parser.parse!(@argv)
         assign_targets
         validate_targets
+        normalize_output
         @options
       end
 
@@ -49,12 +51,19 @@ module CopyCode
       # @return [OptionParser]
       def build_parser
         OptionParser.new do |opts|
-          opts.banner = "Usage: copy_code [options] [paths]"
+          opts.banner = "Usage: copy_code [paths] [options]"
           opts.on("-eEXT", "--extensions=EXT", "Comma-separated list (e.g. rb,py,js)") do |ext|
             @options[:extensions] = parse_extensions(ext)
           end
           opts.on("-pOUT", "--print=OUT", "Output method: pbcopy (default) or txt") do |out|
             @options[:output] = out
+          end
+          opts.on("-oPATH", "--output-path=PATH", "Path or directory for txt output (default: code_output.txt)") do |path|
+            @options[:output_path] = path
+          end
+          opts.on("-h", "--help", "Displays help information") do
+            puts opts
+            exit
           end
         end
       end
@@ -71,7 +80,7 @@ module CopyCode
       #
       # @return [void]
       def assign_targets
-        @options[:targets] = @argv unless @argv.empty?
+        @options[:targets] = @argv.empty? ? [Dir.pwd] : @argv
         @options[:targets].map! { |t| File.expand_path(t) }
       end
 
@@ -80,8 +89,17 @@ module CopyCode
       # @return [void]
       def validate_targets
         @options[:targets].each do |path|
-          warn "[WARN] Target path does not exist: #{path}" unless Dir.exist?(path)
+          next if File.exist?(path)
+
+          raise OptionParser::InvalidArgument, "Target path does not exist: #{path}"
         end
+      end
+
+      def normalize_output
+        @options[:output] = @options[:output].to_s.strip.downcase
+        return if %w[pbcopy txt].include?(@options[:output])
+
+        raise OptionParser::InvalidArgument, "Output must be pbcopy or txt"
       end
     end
   end

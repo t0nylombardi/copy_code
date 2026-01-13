@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "pry"
-
 module CopyCode
   # Core file aggregator and formatter for the CopyCode domain
   class Core
@@ -17,11 +15,7 @@ module CopyCode
     # @return [Array<String>] list of absolute file paths
     def gather_files
       @targets.flat_map do |target|
-        Dir.glob("#{target}/**/*", File::FNM_DOTMATCH).select do |file|
-          is_file = File.file?(file)
-          is_included = include_file?(file)
-          is_file && is_included
-        end
+        files_for_target(target).select { |file| include_file?(file) }
       end
     end
 
@@ -38,6 +32,13 @@ module CopyCode
     end
 
     private
+
+    def files_for_target(target)
+      return [target] if File.file?(target)
+      return [] unless File.directory?(target)
+
+      Dir.glob("#{target}/**/*", File::FNM_DOTMATCH).select { |file| File.file?(file) }
+    end
 
     def include_file?(file)
       @filters.none? { |f| f.exclude?(file) }
