@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pathname"
+
 # copy_code/lib/copy_code/cli/runner.rb
 #
 # This file defines the CopyCode::CLI::Runner class, which is the core orchestrator
@@ -93,9 +95,23 @@ module CopyCode
       def output_path
         return nil unless options[:output].to_s.strip.casecmp("txt").zero?
 
+        explicit_path = options[:output_path]
         target = options[:targets].first
-        base_dir = File.directory?(target) ? target : File.dirname(target)
-        File.join(base_dir, "code_output.txt")
+        base_dir = File.directory?(target) ? target : Dir.pwd
+        return File.join(base_dir, "code_output.txt") if explicit_path.nil? || explicit_path.strip.empty?
+
+        resolved_path = File.expand_path(explicit_path, base_dir)
+        return File.join(resolved_path, "code_output.txt") if directory_like?(explicit_path, resolved_path)
+
+        resolved_path
+      end
+
+      def directory_like?(explicit_path, resolved_path)
+        return true if explicit_path.end_with?(File::SEPARATOR)
+        return true if [".", ".."].include?(explicit_path)
+        return true if File.directory?(resolved_path)
+
+        false
       end
     end
   end

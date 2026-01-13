@@ -25,6 +25,7 @@ A smart, flexible CLI tool to copy source code from a directory (or project) int
 | -------------------- | -------------------------------------------------------------------- |
 | -e, --extensions=EXT | Comma-separated list of file extensions to include (e.g. `-e rb,py`) |
 | -p, --print=OUT      | Output format: `pbcopy` (clipboard) or `txt` (file)                  |
+| -o, --output-path=PATH | Output path or directory for `txt` mode (default: `code_output.txt`) |
 | -h                   | Show help information                                                |
 
 ## 🚀 Installation
@@ -60,6 +61,18 @@ Copy .js, .ts, and .json files from a specific folder and write to a file:
 
 ```sh
 copy_code ~/projects/my-app -e js,ts,json -p txt
+```
+
+Write output to a specific file:
+
+```sh
+copy_code ~/projects/my-app -e rb -p txt -o ~/tmp/my_code.txt
+```
+
+Write output to the project root:
+
+```sh
+copy_code ~/projects/my-app -e rb -p txt -o .
 ```
 
 Copy all .rb and .py files from the current directory and subdirectories:

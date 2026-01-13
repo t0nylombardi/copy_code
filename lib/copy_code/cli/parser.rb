@@ -28,6 +28,7 @@ module CopyCode
         @options = {
           extensions: [],
           output: "pbcopy",
+          output_path: nil,
           targets: []
         }
       end
@@ -56,6 +57,9 @@ module CopyCode
           end
           opts.on("-pOUT", "--print=OUT", "Output method: pbcopy (default) or txt") do |out|
             @options[:output] = out
+          end
+          opts.on("-oPATH", "--output-path=PATH", "Path or directory for txt output (default: code_output.txt)") do |path|
+            @options[:output_path] = path
           end
           opts.on("-h", "--help", "Displays help information") do
             puts opts

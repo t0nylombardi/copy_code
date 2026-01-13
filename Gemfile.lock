@@ -207,7 +207,6 @@ DEPENDENCIES
   brakeman
   colorize
   copy_code!
-  cucumber
   irb
   optparse
   pry

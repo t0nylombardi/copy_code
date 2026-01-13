@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module CopyCode
-  VERSION = "0.3.0.beta"
+  VERSION = "0.5.0"
 end
