@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "pry"
-
 module CopyCode
   # Core file aggregator and formatter for the CopyCode domain
   class Core

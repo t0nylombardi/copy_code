@@ -35,7 +35,7 @@ module CopyCode
       #
       # @return [void]
       def execute
-        OutputWriter.write(result, options[:output])
+        OutputWriter.write(result, options[:output], output_path: output_path)
       end
 
       private
@@ -85,6 +85,17 @@ module CopyCode
       # @return [Hash] parsed options hash
       def options
         @options ||= Parser.new(@argv).parse
+      end
+
+      # Determines where to write the text output, if requested.
+      #
+      # @return [String, nil] absolute output path or nil when not writing a file
+      def output_path
+        return nil unless options[:output].to_s.strip.casecmp("txt").zero?
+
+        target = options[:targets].first
+        base_dir = File.directory?(target) ? target : File.dirname(target)
+        File.join(base_dir, "code_output.txt")
       end
     end
   end

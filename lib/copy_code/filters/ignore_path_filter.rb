@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "pathname"
 require_relative "../domain/filtering"
 
 module CopyCode
@@ -19,6 +20,8 @@ module CopyCode
         return false if @rules.empty?
 
         relative = @resolver.call(file)
+        return false if Pathname.new(relative).absolute?
+
         @rules.ignored?(relative)
       end
     end

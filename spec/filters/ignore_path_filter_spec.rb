@@ -39,5 +39,14 @@ RSpec.describe CopyCode::Filters::IgnorePathFilter do
         expect(filter.exclude?(file)).to be(false)
       end
     end
+
+    it "handles anchored patterns correctly" do
+      Dir.mktmpdir do |dir|
+        filter = described_class.new(["/build/"], root: dir)
+
+        expect(filter.exclude?(File.join(dir, "build/output.txt"))).to be(true)
+        expect(filter.exclude?(File.join(dir, "dist/build/output.txt"))).to be(false)
+      end
+    end
   end
 end

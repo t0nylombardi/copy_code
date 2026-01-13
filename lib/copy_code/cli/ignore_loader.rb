@@ -30,14 +30,14 @@ module CopyCode
       # @return [Result] a result containing patterns and the base directory
       def self.load(target_path)
         target_path = File.expand_path(target_path)
-        local_file = File.join(target_path, ".ccignore")
-        fallback_file = File.expand_path("~/.ccignore")
+        local_file = first_existing_file(target_path, [".ccignore", ".cc_ignore"])
+        fallback_file = first_existing_file(File.expand_path("~"), [".ccignore", ".cc_ignore"])
 
-        file = File.exist?(local_file) ? local_file : fallback_file
-        base_dir = File.exist?(file) ? File.dirname(file) : target_path
+        file = local_file || fallback_file
+        base_dir = file ? File.dirname(file) : target_path
         patterns = []
 
-        if File.exist?(file)
+        if file && File.exist?(file)
           patterns = File.readlines(file, chomp: true)
           patterns.map!(&:strip)
           patterns.reject!(&:empty?)
@@ -51,6 +51,18 @@ module CopyCode
       # @return [Boolean] whether the file should be excluded
       def exclude?(file)
         Filters::IgnorePathFilter.new(@patterns, root: @base_dir).exclude?(file)
+      end
+
+      # @param base_dir [String]
+      # @param names [Array<String>]
+      # @return [String, nil] the first existing file path
+      def self.first_existing_file(base_dir, names)
+        names.each do |name|
+          path = File.join(base_dir, name)
+          return path if File.exist?(path)
+        end
+
+        nil
       end
     end
   end

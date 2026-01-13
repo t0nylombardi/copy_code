@@ -20,9 +20,8 @@ RSpec.describe CopyCode::Domain::Filtering::IgnoreRuleSet do
 
     it "supports directory rules with trailing slashes" do
       rule_set = described_class.new(["tmp/"])
-      binding.pry
-      expect(rule_set.ignored?("tmp/cache/data.json")).to be(true)
       expect(rule_set.ignored?("tmp")).to be(true)
+      expect(rule_set.ignored?("tmp/cache/data.json")).to be(true)
       expect(rule_set.ignored?("lib/tmp_helpers.rb")).to be(false)
     end
 

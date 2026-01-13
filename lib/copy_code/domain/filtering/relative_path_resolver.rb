@@ -15,9 +15,16 @@ module CopyCode
         # @return [String] the path relative to the configured root
         def call(file)
           file_path = Pathname.new(File.expand_path(file))
-          file_path.relative_path_from(@root).to_s
+          relative = file_path.relative_path_from(@root).to_s
+          return file_path.to_s if outside_root?(relative)
+
+          relative
         rescue ArgumentError
           file_path.to_s
+        end
+
+        def outside_root?(relative)
+          relative == ".." || relative.start_with?("..#{File::SEPARATOR}")
         end
       end
     end

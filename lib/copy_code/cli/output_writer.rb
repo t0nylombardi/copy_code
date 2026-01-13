@@ -20,12 +20,15 @@ module CopyCode
       #
       # @param content [String] the fully formatted output content
       # @param method [String] the output method ("txt" or "pbcopy")
+      # @param output_path [String, nil] optional path for text file output
       # @return [void]
-      def self.write(content, method)
-        case method
+      def self.write(content, method, output_path: nil)
+        normalized_method = method.to_s.strip.downcase
+        case normalized_method
         when "txt"
-          File.write("code_output.txt", content)
-          puts "✅ Saved to code_output.txt"
+          path = output_path || "code_output.txt"
+          File.write(path, content)
+          puts "✅ Saved to #{path}"
         else
           IO.popen("pbcopy", "w") { |io| io.write(content) }
           puts "✅ Copied to clipboard"
