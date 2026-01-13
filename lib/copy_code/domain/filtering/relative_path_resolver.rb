@@ -23,6 +23,8 @@ module CopyCode
           file_path.to_s
         end
 
+        private
+
         def outside_root?(relative)
           relative == ".." || relative.start_with?("..#{File::SEPARATOR}")
         end

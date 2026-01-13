@@ -30,10 +30,20 @@ module CopyCode
           File.write(path, content)
           puts "✅ Saved to #{path}"
         else
-          IO.popen("pbcopy", "w") { |io| io.write(content) }
-          puts "✅ Copied to clipboard"
+          if pbcopy_available?
+            IO.popen("pbcopy", "w") { |io| io.write(content) }
+            puts "✅ Copied to clipboard"
+          else
+            warn "[WARN] pbcopy not available; writing to stdout"
+            puts content
+          end
         end
       end
+
+      def self.pbcopy_available?
+        system("command", "-v", "pbcopy", out: File::NULL, err: File::NULL)
+      end
+      private_class_method :pbcopy_available?
     end
   end
 end

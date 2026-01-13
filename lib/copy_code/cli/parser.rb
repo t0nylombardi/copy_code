@@ -39,6 +39,7 @@ module CopyCode
         build_parser.parse!(@argv)
         assign_targets
         validate_targets
+        normalize_output
         @options
       end
 
@@ -84,8 +85,17 @@ module CopyCode
       # @return [void]
       def validate_targets
         @options[:targets].each do |path|
-          warn "[WARN] Target path does not exist: #{path}" unless Dir.exist?(path)
+          next if File.exist?(path)
+
+          raise OptionParser::InvalidArgument, "Target path does not exist: #{path}"
         end
+      end
+
+      def normalize_output
+        @options[:output] = @options[:output].to_s.strip.downcase
+        return if %w[pbcopy txt].include?(@options[:output])
+
+        raise OptionParser::InvalidArgument, "Output must be pbcopy or txt"
       end
     end
   end

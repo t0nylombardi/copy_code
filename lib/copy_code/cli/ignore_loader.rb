@@ -3,10 +3,10 @@
 # copy_code/lib/copy_code/cli/ignore_loader.rb
 #
 # This file defines the CopyCode::CLI::IgnoreLoader class, which is responsible
-# for loading ignore patterns from a `.copy_codeignore` file.
+# for loading ignore patterns from `.ccignore` or `.cc_ignore`.
 #
 # It checks the first project target path passed to the CLI, and falls back
-# to the user's `~/.ccignore` if not found.
+# to the user's `~/.ccignore` or `~/.cc_ignore` if not found.
 
 require_relative "../filters/ignore_path_filter"
 
