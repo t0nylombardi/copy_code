@@ -1,9 +1,9 @@
 # 🧠 copy_code
 
-![Gem Version](https://img.shields.io/gem/v/copy_code.svg)
-![Ruby](https://img.shields.io/badge/ruby-3.0%2B-red)
-![Build Status](https://img.shields.io/github/actions/workflow/status/t0nylombardi/copy_code/test.yml?branch=main)
-![Code Style](https://img.shields.io/badge/code%20style-rubocop-brightgreen)
+![Gem Version](https://img.shields.io/gem/v/copy_code.svg?color=209fb5)
+![Ruby](https://img.shields.io/badge/ruby-3.2%2B-e64553.svg)
+![Build Status](https://img.shields.io/github/actions/workflow/status/t0nylombardi/copy_code/test.yml?branch=main&color=a6da95)
+![Code Style](https://img.shields.io/badge/code%20style-standardrb-c6a0f6.svg)
 
 A smart, flexible CLI tool to copy source code from a directory (or project) into your clipboard or a text file — while skipping unnecessary files using `.ccignore`.
 
